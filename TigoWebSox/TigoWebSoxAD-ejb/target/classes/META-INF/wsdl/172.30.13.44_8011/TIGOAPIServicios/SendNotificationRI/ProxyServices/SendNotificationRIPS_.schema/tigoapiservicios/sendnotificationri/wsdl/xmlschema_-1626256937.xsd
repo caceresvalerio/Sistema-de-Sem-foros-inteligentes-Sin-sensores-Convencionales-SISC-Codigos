@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://www.tigo.com/SendNotificationResponse/V1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:header="http://www.tigo.com/Core/Common/Header/Response/V1" xmlns:common="http://www.tigo.com/Core/Common/V1" xmlns:error="http://www.tigo.com/Core/Common/Error/V1" xmlns:par="http://www.tigo.com/ParameterType/V1">
+    <xsd:import namespace="http://www.tigo.com/Core/Common/V1" schemaLocation="http://172.30.13.44:8011/TIGOAPIServicios/SendNotificationRI/ProxyServices/SendNotificationRIPS_?SCHEMA%2FTIGOAPIServicios%2FSendNotificationRI%2FWSDL%2FXMLSchema_-1663557376"/>
+    <xsd:import namespace="http://www.tigo.com/Core/Common/Header/Response/V1" schemaLocation="http://172.30.13.44:8011/TIGOAPIServicios/SendNotificationRI/ProxyServices/SendNotificationRIPS_?SCHEMA%2FTIGOAPIServicios%2FSendNotificationRI%2FWSDL%2FXMLSchema_-399014691"/>
+    <xsd:import namespace="http://www.tigo.com/Core/Common/Error/V1" schemaLocation="http://172.30.13.44:8011/TIGOAPIServicios/SendNotificationRI/ProxyServices/SendNotificationRIPS_?SCHEMA%2FTIGOAPIServicios%2FSendNotificationRI%2FWSDL%2FXMLSchema_-672187849"/>
+    <xsd:import namespace="http://www.tigo.com/ParameterType/V1" schemaLocation="http://172.30.13.44:8011/TIGOAPIServicios/SendNotificationRI/ProxyServices/SendNotificationRIPS_?SCHEMA%2FTIGOAPIServicios%2FSendNotificationRI%2FWSDL%2FXMLSchema_-1383931172"/>
+    <xsd:element name="SendNotificationResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="header:ResponseHeader"/>
+                <xsd:element name="responseBody">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="success" type="xsd:boolean"/>
+                            <xsd:element name="destiny" type="xsd:string"/>
+                            <xsd:element name="transactionCode" type="xsd:string"/>
+                            <xsd:element name="additionalResult">
+                                <xsd:complexType>
+                                    <xsd:sequence maxOccurs="unbounded">
+                                        <xsd:element ref="par:ParameterType"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element minOccurs="0" ref="error:Error"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

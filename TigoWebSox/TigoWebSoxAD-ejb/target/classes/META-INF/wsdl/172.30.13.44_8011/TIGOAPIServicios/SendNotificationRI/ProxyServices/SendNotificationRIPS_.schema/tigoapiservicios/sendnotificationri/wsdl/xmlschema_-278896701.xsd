@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.tigo.com/Core/Common/Header/Request/V1" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:common="http://www.tigo.com/Core/Common/V1">
+    <xsd:import schemaLocation="http://172.30.13.44:8011/TIGOAPIServicios/SendNotificationRI/ProxyServices/SendNotificationRIPS_?SCHEMA%2FTIGOAPIServicios%2FSendNotificationRI%2FWSDL%2FXMLSchema_-1663557376" namespace="http://www.tigo.com/Core/Common/V1"/>
+    <xsd:element name="RequestHeader">
+        <xsd:complexType>
+            <xsd:all>
+                <xsd:element name="Consumer">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Credentials" minOccurs="0">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:choice minOccurs="0">
+                                            <xsd:element name="certificates" type="xsd:string"/>
+                                            <xsd:element name="User">
+                                                <xsd:complexType>
+                                                    <xsd:sequence>
+                                                        <xsd:element name="userName" type="xsd:string"/>
+                                                        <xsd:element name="password" type="xsd:string"/>
+                                                    </xsd:sequence>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                        </xsd:choice>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                        <xsd:attribute name="code" type="common:CodeType" use="required"/>
+                        <xsd:attribute name="name" type="xsd:string"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="Transport">
+                    <xsd:complexType>
+                        <xsd:all>
+                            <xsd:element name="applicationCode" type="common:CodeType" minOccurs="0"/>
+                            <xsd:element name="responseQueue" minOccurs="0"/>
+                            <xsd:element name="responseQueueAdministrator" minOccurs="0"/>
+                            <xsd:element name="ServiceCode" type="common:CodeType" minOccurs="0"/>
+                            <xsd:element name="communicationType" type="common:CommunicationType"/>
+                        </xsd:all>
+                        <xsd:attribute name="code" type="common:TransportCodeType" use="required"/>
+                        <xsd:attribute name="name" type="xsd:string"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="Service">
+                    <xsd:complexType>
+                        <xsd:all>
+                            <xsd:element name="retryCounter" type="xsd:integer" minOccurs="0"/>
+                            <xsd:element name="retryInterval" type="xsd:long" minOccurs="0"/>
+                        </xsd:all>
+                        <xsd:attribute name="code" type="common:CodeType" use="required"/>
+                        <xsd:attribute name="name" type="xsd:string"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="Message">
+                    <xsd:complexType>
+                        <xsd:all>
+                            <xsd:element name="timestamp" type="xsd:dateTime" minOccurs="0"/>
+                            <xsd:element name="expiration" type="xsd:integer" minOccurs="0"/>
+                        </xsd:all>
+                        <xsd:attribute name="messageId" type="xsd:long"/>
+                        <xsd:attribute name="messageIdCorrelation" type="xsd:long"/>
+                        <xsd:attribute name="conversationId" type="xsd:long"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="Country" minOccurs="1">
+                    <xsd:complexType>
+                        <xsd:attribute name="name" type="xsd:string" use="required"/>
+                        <xsd:attribute name="isoCode" type="common:CodeType" use="required"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:all>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

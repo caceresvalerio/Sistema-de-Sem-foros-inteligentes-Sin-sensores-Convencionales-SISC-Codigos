@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.tigo.com/Core/Common/Header/Response/V1" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:common="http://www.tigo.com/Core/Common/V1">
+    <xsd:import schemaLocation="http://172.30.13.44:8011/TIGOAPIServicios/SendNotificationRI/ProxyServices/SendNotificationRIPS_?SCHEMA%2FTIGOAPIServicios%2FSendNotificationRI%2FWSDL%2FXMLSchema_-1663557376" namespace="http://www.tigo.com/Core/Common/V1"/>
+    <xsd:element name="ResponseHeader">
+        <xsd:complexType>
+            <xsd:all>
+                <xsd:element name="Consumer">
+                    <xsd:complexType>
+                        <xsd:attribute name="code" type="common:CodeType" use="required"/>
+                        <xsd:attribute name="name" type="xsd:string"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="Service">
+                    <xsd:complexType>
+                        <xsd:attribute name="code" type="common:CodeType" use="required"/>
+                        <xsd:attribute name="name" type="xsd:string"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="Message">
+                    <xsd:complexType>
+                        <xsd:all>
+                            <xsd:element name="timestamp" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="state" type="common:MessageStateType" minOccurs="0"/>
+                        </xsd:all>
+                        <xsd:attribute name="messageId" type="xsd:long"/>
+                        <xsd:attribute name="messageIdCorrelation" type="xsd:long"/>
+                        <xsd:attribute name="conversationId" type="xsd:long" use="optional"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="Country" minOccurs="1">
+                    <xsd:complexType>
+                        <xsd:attribute name="name" type="xsd:string" use="required"/>
+                        <xsd:attribute name="isoCode" type="common:CodeType" use="required"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:all>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

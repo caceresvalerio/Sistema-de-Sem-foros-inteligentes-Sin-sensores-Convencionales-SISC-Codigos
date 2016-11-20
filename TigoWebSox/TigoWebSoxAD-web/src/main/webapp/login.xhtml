@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Login Page</title>
+        <h:outputStylesheet  name="css/logincss.css"  />
+        <h:outputScript library="js" name="cookies-handler.js"/>
+        <h:outputScript library="js" name="tigo-utilities.js"/>
+
+    </h:head>
+    <h:body>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage library="img" name="loading.gif" />
+        </p:dialog>
+
+        <h:panelGroup layout="block" id="login-modal" styleClass="modal fade">
+            <h:panelGroup layout="block" styleClass="modal-dialog">
+                <h:panelGroup layout="block" styleClass="loginmodal-container">
+                    <h1>Login to Your Account</h1><br/>
+                    <h:form id="loginForm">
+                        <p:messages autoUpdate="true"/>
+                        <h:outputText value="Username: "/><h:inputText value="#{loginBean.username}" /><br/>
+                        <h:outputText value="Password: "/><h:inputSecret value="#{loginBean.password}" />
+
+                        <br/>
+                        <p:commandButton 
+                            value="Login" styleClass="login loginmodal-submit" 
+                            actionListener="#{loginBean.execute}"
+                            oncomplete="TigoUtility.saveGroupsInSesssion(xhr,status,args)"/>
+                    </h:form>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:panelGroup>
+
+
+    </h:body>
+</html>

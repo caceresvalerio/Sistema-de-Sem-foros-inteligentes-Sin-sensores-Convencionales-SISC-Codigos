@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.tigo.com/ParameterType/V1" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.tigo.com/ParameterType/V1">
+    <xsd:element name="ParameterType">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="parameterName" type="xsd:string"/>
+                <xsd:element name="parameterType">
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                            <xsd:enumeration value="STRING"/>
+                            <xsd:enumeration value="INT"/>
+                            <xsd:enumeration value="LONG"/>
+                            <xsd:enumeration value="DATE"/>
+                            <xsd:enumeration value="DATE_TIME"/>
+                            <xsd:enumeration value="DOUBLE"/>
+                            <xsd:enumeration value="BOOLEAN"/>
+                            <xsd:enumeration value="XML"/>
+                            <xsd:enumeration value="SERIALIZED"/>
+                        </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:element>
+                <xsd:element name="parameterValue" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="Parameter">
+        <xsd:sequence>
+            <xsd:element name="parameterName" type="xsd:string"/>
+            <xsd:element name="parameterType">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="STRING"/>
+                        <xsd:enumeration value="INT"/>
+                        <xsd:enumeration value="LONG"/>
+                        <xsd:enumeration value="DATE"/>
+                        <xsd:enumeration value="DATE_TIME"/>
+                        <xsd:enumeration value="DOUBLE"/>
+                        <xsd:enumeration value="BOOLEAN"/>
+                        <xsd:enumeration value="XML"/>
+                        <xsd:enumeration value="SERIALIZED"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="parameterValue" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

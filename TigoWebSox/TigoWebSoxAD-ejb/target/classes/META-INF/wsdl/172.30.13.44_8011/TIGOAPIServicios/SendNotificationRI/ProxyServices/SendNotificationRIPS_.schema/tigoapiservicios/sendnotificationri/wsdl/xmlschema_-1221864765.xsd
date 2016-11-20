@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://www.tigo.com/SendNotificationRequest/V1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:cabecera="http://www.tigo.com/Core/Common/Header/Request/V1" xmlns:common="http://www.tigo.com/Core/Common/V1" xmlns:error="http://www.tigo.com/Core/Common/Error/V1" xmlns:snd="http://www.tigo.com/SendNotification/V1">
+    <xsd:import namespace="http://www.tigo.com/Core/Common/V1" schemaLocation="http://172.30.13.44:8011/TIGOAPIServicios/SendNotificationRI/ProxyServices/SendNotificationRIPS_?SCHEMA%2FTIGOAPIServicios%2FSendNotificationRI%2FWSDL%2FXMLSchema_-1663557376"/>
+    <xsd:import namespace="http://www.tigo.com/Core/Common/Header/Request/V1" schemaLocation="http://172.30.13.44:8011/TIGOAPIServicios/SendNotificationRI/ProxyServices/SendNotificationRIPS_?SCHEMA%2FTIGOAPIServicios%2FSendNotificationRI%2FWSDL%2FXMLSchema_-278896701"/>
+    <xsd:import namespace="http://www.tigo.com/Core/Common/Error/V1" schemaLocation="http://172.30.13.44:8011/TIGOAPIServicios/SendNotificationRI/ProxyServices/SendNotificationRIPS_?SCHEMA%2FTIGOAPIServicios%2FSendNotificationRI%2FWSDL%2FXMLSchema_-672187849"/>
+    <xsd:import namespace="http://www.tigo.com/SendNotification/V1" schemaLocation="http://172.30.13.44:8011/TIGOAPIServicios/SendNotificationRI/ProxyServices/SendNotificationRIPS_?SCHEMA%2FTIGOAPIServicios%2FSendNotificationRI%2FWSDL%2FXMLSchema_-1632839207"/>
+    <xsd:element name="SendNotificationRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="cabecera:RequestHeader"/>
+                <xsd:element name="requestBody">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="destiny" type="xsd:string"/>
+                            <xsd:element name="idPlatform" type="xsd:string"/>
+                            <xsd:element name="idProcess" type="xsd:string"/>
+                            <xsd:element name="parameters">
+                                <xsd:complexType>
+                                    <xsd:sequence maxOccurs="unbounded">
+                                        <xsd:element ref="snd:ParamType" minOccurs="0" maxOccurs="unbounded"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="attachments">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element ref="snd:AttachmentType" minOccurs="0" maxOccurs="unbounded"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

@@ -1,0 +1,273 @@
+<!doctype html>
+<html>
+
+<head>
+
+    <!-- Basic -->
+    <meta charset="UTF-8">
+
+    <title>Admin</title>
+    <script src="assets/vendor/jquery/jquery.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/Teun/thenBy.js/master/thenBy.min.js"></script>
+</head>
+
+<body>
+    <section class="body">
+        <center>
+            <h3>Datos Semaforo 1</h3></center>
+
+        <h4>Tramo <span id="tramoNumber0">NORTE / SUR</span> - A: <strong><span id="tramo1a">0</span></strong>, B: <strong><span id="tramo1b">0</span></strong> - Tiempo: <strong><span id="timepotramo1">0</span></strong></h4>
+        <h4>Tramo <span id="tramoNumber1">SUR / NORTE</span> - A: <strong><span id="tramo2a">0</span></strong>, B: <strong><span id="tramo2b">0</span></strong> - Tiempo: <strong><span id="timepotramo2">0</span></strong></h4>
+        <h4>Tramo <span id="tramoNumber2">OESTE / ESTE</span> - A: <strong><span id="tramo3a">0</span></strong>, B: <strong><span id="tramo3b">0</span></strong> - Tiempo: <strong><span id="timepotramo3">0</span></strong></h4>
+        <h4>Tramo <span id="tramoNumber3">ESTE / OESTE</span> - A: <strong><span id="tramo4a">0</span></strong>, B: <strong><span id="tramo4b">0</span></strong> - Tiempo: <strong><span id="timepotramo4">0</span></strong></h4>
+        <iframe id="smsIframe" src="http://www.google.com" style="visibility: hidden;"></iframe>
+    </section>
+</body>
+
+<script type="text/javascript">
+    function getUrlVars() {
+        var vars = [],
+            hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+
+    var tramo1Data = getUrlVars()['tramo1'].split(",");
+    var tramo2Data = getUrlVars()['tramo2'].split(",");
+    var tramo3Data = getUrlVars()['tramo3'].split(",");
+    var tramo4Data = getUrlVars()['tramo4'].split(",");
+
+    tramo1Data[2] = Math.round(tramo1Data[2]);
+    tramo2Data[2] = Math.round(tramo2Data[2]);
+    tramo3Data[2] = Math.round(tramo3Data[2]);
+    tramo4Data[2] = Math.round(tramo4Data[2]);
+
+    var jsonObject = [{
+        "tramoAId": "#tramo1a",
+        "tramoBId": "#tramo1b",
+        "tramoTime": "#timepotramo1",
+        "valueA": tramo1Data[0],
+        "valueB": tramo1Data[1],
+        "time": Math.round(tramo1Data[2]),
+        "number": "NORTE / SUR"
+    }, {
+        "tramoAId": "#tramo2a",
+        "tramoBId": "#tramo2b",
+        "tramoTime": "#timepotramo2",
+        "valueA": tramo2Data[0],
+        "valueB": tramo2Data[1],
+        "time": Math.round(tramo2Data[2]),
+        "number": "SUR / NORTE"
+    }, {
+        "tramoAId": "#tramo3a",
+        "tramoBId": "#tramo3b",
+        "tramoTime": "#timepotramo3",
+        "valueA": tramo3Data[0],
+        "valueB": tramo3Data[1],
+        "time": Math.round(tramo3Data[2]),
+        "number": "OESTE / ESTE"
+    }, {
+        "tramoAId": "#tramo4a",
+        "tramoBId": "#tramo4b",
+        "tramoTime": "#timepotramo4",
+        "valueA": tramo4Data[0],
+        "valueB": tramo4Data[1],
+        "time": Math.round(tramo4Data[2]),
+        "number": "ESTE / OESTE"
+    }];
+
+    jsonObject.sort(firstBy("time", {
+        ignoreCase: true,
+        direction: -1
+    }));
+
+    console.log(jsonObject);
+
+
+    for (var index = 0; index < jsonObject.length; index++) {
+        jQuery("#tramoNumber" + (index)).text(jsonObject[index].number);
+        jQuery("#tramo" + (index + 1) + "a").text(jsonObject[index].valueA);
+        jQuery("#tramo" + (index + 1) + "b").text(jsonObject[index].valueB);
+        jQuery("#timepotramo" + (index + 1)).text(jsonObject[index].time);
+        
+        if(index === 0){
+            tramo1Data[2] = jsonObject[index].time;
+        } else if(index === 1){
+            tramo2Data[2] = jsonObject[index].time;
+        }else if(index === 2){
+            tramo3Data[2] = jsonObject[index].time;
+        }else if(index === 3){
+            tramo4Data[2] = jsonObject[index].time;
+        }
+
+    }
+
+    var tramo1Letter;
+    var tramo1LetterY;
+    var tramo2Letter;
+    var tramo2LetterY;
+    var tramo3Letter;
+    var tramo3LetterY;
+    var tramo4Letter;
+    var tramoLetterY;
+
+    if (tramo1Data[2] > 0) {
+
+        if (tramo3Data[1] < 60) {
+            tramo1Letter = 'F';
+            tramo1LetterY = 'FA'
+        } else {
+            tramo1Letter = 'D';
+            tramo1LetterY = 'DA'
+        }
+
+        jQuery("#smsIframe").attr("src", "http://api.clickatell.com/http/sendmsg?user=testing_edwin_caceres&password=fPaeRKOMYfSPOc&api_id=3613086&to=18098455942&text=" + tramo1Letter);
+
+    } else {
+        if (tramo3Data[1] < 60) {
+            tramo1Letter = 'E';
+            tramo1LetterY = 'EA'
+
+            jQuery("#smsIframe").attr("src", "http://api.clickatell.com/http/sendmsg?user=testing_edwin_caceres&password=fPaeRKOMYfSPOc&api_id=3613086&to=18098455942&text=" + tramo1Letter);
+        }
+    }
+
+    console.log("Tramo 1");
+    console.log(tramo1Letter);
+    console.log(tramo1LetterY);
+    var interval1 = setInterval(function() {
+        tramo1Data[2] = tramo1Data[2] - 1;
+        if (tramo1Data[2] < 0) {
+            tramo1Data[2] = 0;
+        }
+        jQuery("#timepotramo1").text(tramo1Data[2]);
+
+        if (tramo1Data[2] === 4) {
+            jQuery("#smsIframe").attr("src", "http://api.clickatell.com/http/sendmsg?user=testing_edwin_caceres&password=fPaeRKOMYfSPOc&api_id=3613086&to=18098455942&text=" + tramo1LetterY);
+        } else if (tramo1Data[2] === 0) {
+            clearInterval(interval1);
+
+            if (tramo2Data[2] > 0) {
+
+                if (tramo4Data[1] < 60) {
+                    tramo2Letter = 'L';
+                    tramo2LetterY = 'LA'
+                } else {
+                    tramo2Letter = 'J';
+                    tramo2LetterY = 'JA'
+                }
+
+                jQuery("#smsIframe").attr("src", "http://api.clickatell.com/http/sendmsg?user=testing_edwin_caceres&password=fPaeRKOMYfSPOc&api_id=3613086&to=18098455942&text=" + tramo1Letter);
+
+            } else {
+                if (tramo4Data[1] < 60) {
+                    tramo2Letter = 'K';
+                    tramo2LetterY = 'KA'
+
+                    jQuery("#smsIframe").attr("src", "http://api.clickatell.com/http/sendmsg?user=testing_edwin_caceres&password=fPaeRKOMYfSPOc&api_id=3613086&to=18098455942&text=" + tramo2Letter);
+                }
+            }
+
+            console.log("Tramo 2");
+            console.log(tramo2Letter);
+            console.log(tramo2LetterY);
+            var interval2 = setInterval(function() {
+                tramo2Data[2] = tramo2Data[2] - 1;
+                if (tramo2Data[2] < 0) {
+                    tramo2Data[2] = 0;
+                }
+                jQuery("#timepotramo2").text(tramo2Data[2]);
+
+                if (tramo2Data[2] === 4) {
+                    jQuery("#smsIframe").attr("src", "http://api.clickatell.com/http/sendmsg?user=testing_edwin_caceres&password=fPaeRKOMYfSPOc&api_id=3613086&to=18098455942&text=" + tramo2LetterY);
+                } else if (tramo2Data[2] === 0) {
+                    clearInterval(interval2);
+
+                    if (tramo3Data[2] > 0) {
+
+                        if (tramo2Data[1] < 60) {
+                            tramo3Letter = 'C';
+                            tramo3LetterY = 'CA'
+                        } else {
+                            tramo3Letter = 'A';
+                            tramo3LetterY = 'AA'
+                        }
+
+                        jQuery("#smsIframe").attr("src", "http://api.clickatell.com/http/sendmsg?user=testing_edwin_caceres&password=fPaeRKOMYfSPOc&api_id=3613086&to=18098455942&text=" + tramo3Letter);
+
+                    } else {
+                        if (tramo2Data[1] < 60) {
+                            tramo3Letter = 'B';
+                            tramo3LetterY = 'BA'
+
+                            jQuery("#smsIframe").attr("src", "http://api.clickatell.com/http/sendmsg?user=testing_edwin_caceres&password=fPaeRKOMYfSPOc&api_id=3613086&to=18098455942&text=" + tramo3Letter);
+                        }
+                    }
+
+                    console.log("Tramo 3");
+                    console.log(tramo3Letter);
+                    console.log(tramo3LetterY);
+                    var interval3 = setInterval(function() {
+                        tramo3Data[2] = tramo3Data[2] - 1;
+                        if (tramo3Data[2] < 0) {
+                            tramo3Data[2] = 0;
+                        }
+                        jQuery("#timepotramo3").text(tramo3Data[2]);
+
+                        if (tramo3Data[2] === 4) {
+                            jQuery("#smsIframe").attr("src", "http://api.clickatell.com/http/sendmsg?user=testing_edwin_caceres&password=fPaeRKOMYfSPOc&api_id=3613086&to=18098455942&text=" + tramo3LetterY);
+                        } else if (tramo3Data[2] === 0) {
+                            if (tramo4Data[2] > 0) {
+
+                                if (tramo1Data[1] < 60) {
+                                    tramo4Letter = 'I';
+                                    tramo4LetterY = 'IA'
+                                } else {
+                                    tramo4Letter = 'G';
+                                    tramo4LetterY = 'GA'
+                                }
+
+                                jQuery("#smsIframe").attr("src", "http://api.clickatell.com/http/sendmsg?user=testing_edwin_caceres&password=fPaeRKOMYfSPOc&api_id=3613086&to=18098455942&text=" + tramo4Letter);
+
+                            } else {
+                                if (tramo1Data[1] < 60) {
+                                    tramo4Letter = 'H';
+                                    tramo4LetterY = 'HA'
+
+                                    jQuery("#smsIframe").attr("src", "http://api.clickatell.com/http/sendmsg?user=testing_edwin_caceres&password=fPaeRKOMYfSPOc&api_id=3613086&to=18098455942&text=" + tramo4Letter);
+                                }
+                            }
+
+                            console.log("Tramo 4");
+                            console.log(tramo4Letter);
+                            console.log(tramo4LetterY);
+                            clearInterval(interval3);
+                            var interval4 = setInterval(function() {
+                                tramo4Data[2] = tramo4Data[2] - 1;
+                                if (tramo4Data[2] < 0) {
+                                    tramo4Data[2] = 0;
+                                }
+                                jQuery("#timepotramo4").text(tramo4Data[2]);
+
+                                if (tramo4Data[2] === 4) {
+                                    jQuery("#smsIframe").attr("src", "http://api.clickatell.com/http/sendmsg?user=testing_edwin_caceres&password=fPaeRKOMYfSPOc&api_id=3613086&to=18098455942&text=" + tramo4LetterY);
+                                } else if (tramo4Data[2] === 0) {
+                                    clearInterval(interval4);
+                                    jQuery("#smsIframe").attr("src", "http://api.clickatell.com/http/sendmsg?user=testing_edwin_caceres&password=fPaeRKOMYfSPOc&api_id=3613086&to=18098455942&text=Q");
+                                }
+                            }, 1000);
+                        }
+                    }, 1000);
+                }
+            }, 1000);
+        }
+    }, 1000);
+
+</script>
+
+</html>

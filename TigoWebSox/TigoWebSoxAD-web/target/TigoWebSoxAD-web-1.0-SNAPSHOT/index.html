@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <title>Quartz Monitor</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="./assets/css/bootstrap.css" media="screen">
+        <link rel="stylesheet" href="./assets/css/custom.min.css">
+        <link rel="stylesheet" href="./assets/css/datatables.css">
+    </head>
+
+    <body>
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a onclick="javascript:void(0);" class="navbar-brand" style="cursor: pointer;">Quartz Monitor</a>
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container">
+
+            <div class="page-header" id="banner">
+                <div class="row">
+                    <div class="col-lg-4" style="width: 24.5% !important;">
+                        <div class="bs-component">
+                            <ul class="list-group">
+                                <li class="list-group-item active">
+                                    <span class="badge default">14</span> <a href="javascript:void(0);"><span class="glyphicon glyphicon-time"></span>  Recurring Jobs</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="badge">2</span> <a href="javascript:void(0);">Scheduled</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="badge succed">2</span> <a href="javascript:void(0);">Succeeded</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="badge proceed">2</span> <a href="javascript:void(0);">Processing</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="badge error">0</span> <a href="javascript:void(0);">Failed</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-8" style="width: 74.3% !important; padding-right: 0px; padding-left: 0px; margin-left: 15px; border-bottom: 1px #ddd solid;">
+                        <div class="bs-component">
+                            <h2 style="margin-top: 6px !important;">Recurring Jobs</h2>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-8" style="width: 74.3% !important; padding-right: 0px; padding-left: 0px; margin-left: 15px; margin-top: 15px;">
+                        <div class="bs-component">
+                            <button type="button" class="btn btn-primary btn-sm trigger-now" disabled=true>
+                                <span class="glyphicon glyphicon-time"></span> Trigger now
+                            </button>
+
+                            <table class="table table-striped table-hover" style="margin-top: 15px;" id="recurrringJobsTable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Id</th>
+                                        <th>Cron</th>
+                                        <th>Job</th>
+                                        <th>Next Execution</th>
+                                        <th>Last Execution</th>
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <footer class="navbar navbar-default navbar-fixed-bottom">
+                <div class="container">
+                    <div class="navbar-header" style="margin-top: 15px;">
+                        <a href="javascript:void(0);">Quartz Monitor</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+
+        <script src="./assets/js/jquery-1.10.2.min.js"></script>
+        <script src="./assets/js/datatables.js"></script>
+        <script src="./assets/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+                        $(function () {
+                            $.ajax({
+                                method: "GET",
+                                url: "http://localhost:7001/TigoWebSoxAD-web/rest/websoxService/jobList",
+                                dataType: "json"
+                            }).done(function (data) {
+                                createRecurringjobsTable(data);
+
+                                $('#recurrringJobsTable').DataTable({
+                                    "ordering": false,
+                                    "search": false
+                                });
+
+                                $(".jobRadio").on('click', function () {
+                                    $(".trigger-now").attr("disabled", false);
+                                });
+
+                                $(".trigger-now").on("click", function () {
+                                    var jobData = $("input[type='radio'][name='jobIdRadio']:checked").val();
+                                    fireJobNow(jobData);
+                                });
+
+                                createIntervals();
+                            });
+                        });
+
+                        function createIntervals() {
+                            var progressBars = $(".progress-bar");
+                            var labels = $(".label-info");
+
+                            setInterval(function () {
+                                for (var index = 0; index < progressBars.length; index++) {
+                                    var element = $(progressBars[index]);
+                                    var label = $(labels[index]);
+
+                                    var percentageRate = parseFloat(element.attr("data-percentage-rate"));
+                                    var actualPercentage = parseFloat(element.attr("data-percentage"));
+                                    var percentage = actualPercentage + percentageRate;
+                                    var percentageString = actualPercentage + "%"
+
+                                    var labelValue = Math.trunc(parseFloat(label.attr("data-initial-value")));
+                                    var timeUnit = label.attr("data-unit-time");
+
+                                    element.css("width", percentageString);
+
+                                    if (actualPercentage === 0) {
+                                        labelValue = 0;
+                                    }
+
+                                    if (actualPercentage >= 99.9) {
+                                        percentage = 0;
+                                    }
+
+                                    element.attr("data-percentage", percentage);
+
+                                    switch (timeUnit) {
+                                        case 'seconds':
+                                            label.text(labelValue + " " + timeUnit + " ago");
+                                            labelValue = labelValue + 1;
+                                            Math.trunc(parseFloat(label.attr("data-initial-value", labelValue)));
+                                            break;
+                                        case 'minutes':
+                                            var total = labelValue / 60;
+                                            label.text(Math.trunc(total) + " " + timeUnit + " ago");
+                                            labelValue = labelValue + 1;
+                                            Math.trunc(parseFloat(label.attr("data-initial-value", labelValue)));
+                                            break;
+                                    }
+                                }
+                            }, 1000);
+                        }
+
+                        function createRecurringjobsTable(jsonData) {
+                            var recurrringJobsTable = $("#recurrringJobsTable");
+                            recurrringJobsTable.find("tbody").remove();
+
+                            var recurrringJobsTableBody = $("<tbody></tbody>");
+                            for (var index in jsonData) {
+                                var job = jsonData[index];
+
+                                var previousDate = new Date(job.previousFireTime);
+                                var nextDate = new Date(job.nextFireTime);
+                                var cronValue = Math.abs(nextDate.getTime() - previousDate.getTime()) / 1000;
+                                var timeUnit = cronValue < 100 ? "seconds" : cronValue < 1000 ? "minutes" : "hours";
+
+                                var now = new Date();
+                                var lessValue = Math.abs(nextDate.getTime() - now.getTime()) / 1000;
+                                var percentage = ((lessValue / cronValue) * 100);
+                                var percentageRate = ((1 / cronValue) * 100);
+
+                                var executedTime = Math.trunc(lessValue) + " " + timeUnit + " " + "ago";
+                                recurrringJobsTableBody.append('<tr><td> <input type="radio" name="jobIdRadio" class="jobRadio" value="' + job.jobName + '#' + job.jobGroup + '" /> </td> <td style="width: 1px;"><a href="javascript:void(0);">' + (job.id + "").substring(0, 8) + '...</a></td> <td style="width: 1px ;"><span style="white-space: nowrap;">Every ' + cronValue + ' ' + timeUnit + '</span></td> <td style="width: auto;">' + job.jobGroup + '.' + job.jobName + '</td> <td style="width: 1px;"> <div class="progress progress-striped active" style="margin-bottom: 0px; width: 320px;"> <div class="progress-bar progress-bar-success" data-percentage-rate=' + percentageRate + ' data-percentage=' + percentage + ' style="width: ' + percentage + '%"></div> </div> </td> <td> <span class="label label-info" style="float: left; margin-left: 10px;" data-initial-value=' + lessValue + ' data-unit-time=' + timeUnit + '>' + executedTime + '</span> </td> </tr>');
+                            }
+                            recurrringJobsTable.append(recurrringJobsTableBody);
+                        }
+
+                        function fireJobNow(jobData) {
+                            var jobName = jobData.split("#")[0];
+                            var jobGroup = jobData.split("#")[1];
+
+                            $.ajax({
+                                method: "POST",
+                                url: "http://localhost:7001/TigoWebSoxAD-web/rest/websoxService/runJob",
+                                data: {jobName: jobName, jobGroup: jobGroup}
+                            }).done(function () {
+                                $.ajax({
+                                    method: "GET",
+                                    url: "http://localhost:7001/TigoWebSoxAD-web/rest/websoxService/jobList",
+                                    dataType: "json"
+                                }).done(function (data) {
+                                    createRecurringjobsTable(data);
+                                    $(".trigger-now").attr("disabled", true);
+
+                                    createIntervals();
+                                });
+                            });
+                        }
+
+        </script>
+    </body>
+
+</html>

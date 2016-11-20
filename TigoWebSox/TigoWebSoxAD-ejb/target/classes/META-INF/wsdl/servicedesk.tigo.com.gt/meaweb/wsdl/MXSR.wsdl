@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:mx="http://www.ibm.com/maximo" xmlns:mxws="http://www.ibm.com/maximo/wsdl/MXSR" targetNamespace="http://www.ibm.com/maximo/wsdl/MXSR" name="MXSR">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://www.ibm.com/maximo" schemaLocation="https://servicedesk.tigo.com.gt/meaweb/schema/service/MXSRService.xsd" />
+    </xsd:schema>
+  </types>
+  <message name="QueryMXSRRequest">
+    <part name="parameters" element="mx:QueryMXSR" />
+  </message>
+  <message name="QueryMXSRResponse">
+    <part name="parameters" element="mx:QueryMXSRResponse" />
+  </message>
+  <message name="SyncMXSRRequest">
+    <part name="parameters" element="mx:SyncMXSR" />
+  </message>
+  <message name="SyncMXSRResponse">
+    <part name="parameters" element="mx:SyncMXSRResponse" />
+  </message>
+  <message name="UpdateMXSRRequest">
+    <part name="parameters" element="mx:UpdateMXSR" />
+  </message>
+  <message name="UpdateMXSRResponse">
+    <part name="parameters" element="mx:UpdateMXSRResponse" />
+  </message>
+  <message name="CreateMXSRRequest">
+    <part name="parameters" element="mx:CreateMXSR" />
+  </message>
+  <message name="CreateMXSRResponse">
+    <part name="parameters" element="mx:CreateMXSRResponse" />
+  </message>
+  <message name="DeleteMXSRRequest">
+    <part name="parameters" element="mx:DeleteMXSR" />
+  </message>
+  <message name="DeleteMXSRResponse">
+    <part name="parameters" element="mx:DeleteMXSRResponse" />
+  </message>
+  <portType name="MXSRPortType">
+    <operation name="QueryMXSR">
+      <input message="mxws:QueryMXSRRequest" />
+      <output message="mxws:QueryMXSRResponse" />
+    </operation>
+    <operation name="SyncMXSR">
+      <input message="mxws:SyncMXSRRequest" />
+      <output message="mxws:SyncMXSRResponse" />
+    </operation>
+    <operation name="UpdateMXSR">
+      <input message="mxws:UpdateMXSRRequest" />
+      <output message="mxws:UpdateMXSRResponse" />
+    </operation>
+    <operation name="CreateMXSR">
+      <input message="mxws:CreateMXSRRequest" />
+      <output message="mxws:CreateMXSRResponse" />
+    </operation>
+    <operation name="DeleteMXSR">
+      <input message="mxws:DeleteMXSRRequest" />
+      <output message="mxws:DeleteMXSRResponse" />
+    </operation>
+  </portType>
+  <binding name="MXSRSOAP11Binding" type="mxws:MXSRPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="QueryMXSR">
+      <soap:operation soapAction="urn:processDocument" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SyncMXSR">
+      <soap:operation soapAction="urn:processDocument" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="UpdateMXSR">
+      <soap:operation soapAction="urn:processDocument" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="CreateMXSR">
+      <soap:operation soapAction="urn:processDocument" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="DeleteMXSR">
+      <soap:operation soapAction="urn:processDocument" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="MXSRSOAP12Binding" type="mxws:MXSRPortType">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="QueryMXSR">
+      <soap12:operation soapAction="urn:processDocument" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SyncMXSR">
+      <soap12:operation soapAction="urn:processDocument" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="UpdateMXSR">
+      <soap12:operation soapAction="urn:processDocument" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="CreateMXSR">
+      <soap12:operation soapAction="urn:processDocument" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="DeleteMXSR">
+      <soap12:operation soapAction="urn:processDocument" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="MXSR">
+    <port name="MXSRSOAP11Port" binding="mxws:MXSRSOAP11Binding">
+      <soap:address location="https://servicedesk.tigo.com.gt/meaweb/services/MXSR" />
+    </port>
+    <port name="MXSRSOAP12Port" binding="mxws:MXSRSOAP12Binding">
+      <soap12:address location="https://servicedesk.tigo.com.gt/meaweb/services/MXSR" />
+    </port>
+  </service>
+</definitions>
+
